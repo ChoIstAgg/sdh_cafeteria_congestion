@@ -1,0 +1,35 @@
+#include "crow.h"
+#include <openssl/ssl.h>
+#include <asio/ssl.hpp>
+
+int main()
+{
+    crow::SimpleApp app;
+
+    // SSL 인증서 및 키 파일 경로
+    const char* cert_file = "ssd_cc_server.crt";
+    const char* key_file = "ssd_cc_server.key";
+
+    // asio::ssl::context 객체 생성
+    asio::ssl::context ctx(asio::ssl::context::sslv23_server);
+
+    try {
+        // 인증서와 키 파일을 설정
+        ctx.use_certificate_file(cert_file, asio::ssl::context::pem);
+        ctx.use_private_key_file(key_file, asio::ssl::context::pem);
+    } catch (const std::exception& e) {
+        std::cerr << "SSL error: " << e.what() << std::endl;
+        return -1;
+    }
+
+    // HTTPS 라우트 설정
+    CROW_ROUTE(app, "/")
+    .methods("GET"_method)
+    ([]() {
+        return "ESP32 SSL 연결 성공!";
+    });
+
+    // SSL 사용하여 서버 실행
+    app.port(50001).ssl(std::move(ctx)).multithreaded().run();
+}
+

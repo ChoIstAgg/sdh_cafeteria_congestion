@@ -13,7 +13,7 @@ const DistanceMonitor: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://myhome-sh-1.mooo.com:50001/status');
+      const response = await fetch('https://api.sdhcc.mooo.com:50001/status');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
