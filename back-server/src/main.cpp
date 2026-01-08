@@ -61,6 +61,6 @@ int main() {
       }
     );
 
-    app.ssl_file("serverkeys/ssd_cc_server.crt", "serverkeys/ssd_cc_server.key");
+    app.ssl_file("serverkeys/server.crt", "serverkeys/server.key");
     app.port(443).run();
 }
