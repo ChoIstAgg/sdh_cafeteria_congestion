@@ -13,7 +13,7 @@ add_definitions(-DCROW_ENABLE_SSL)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 
-include_directories(include/Crow)
+include_directories(include/Crow/include)
 add_subdirectory(src)
 
 

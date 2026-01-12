@@ -61,6 +61,5 @@ int main() {
       }
     );
 
-    app.ssl_file("serverkeys/server.crt", "serverkeys/server.key");
-    app.port(443).run();
+    app.port(50001).run();
 }

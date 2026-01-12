@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo build/src/testing1
+sudo build/src/sdh_cafeteria_congestion
