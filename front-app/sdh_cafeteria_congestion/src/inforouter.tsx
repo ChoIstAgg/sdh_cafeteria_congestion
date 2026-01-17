@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-// 1. 서버 응답 데이터 타입 정의 (congestion 추가, d3 호환성 추가)
+// 서버 응답 데이터 타입 정의 (congestion 추가, d3 호환성 추가)
 interface SensorData {
   distance?: number;
   d3?: number;       // 서버에서 d3로 보내는 경우 대비
@@ -13,7 +13,7 @@ const DistanceMonitor: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://api.sdhcc.mooo.com:50001/status');
+      const response = await fetch('https://api.sdhcc.mooo.com/status');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -22,9 +22,9 @@ const DistanceMonitor: React.FC = () => {
       setError(null);
     } catch (err: any) {
       console.error("데이터 로드 실패:", err);
-      // NetworkError인 경우 CORS 문제 가능성 언급
+      // NetworkError인 경우 CORS 문제 가능성 출력
       if (err.message === "Failed to fetch" || err.name === "TypeError") {
-        setError("네트워크 오류 (CORS 또는 SSL 인증서 문제 확인 필요)");
+        setError("네트워크 오류 (ESP32 클라이언트, CORS, SSL 인증 문제 확인 필요)");
       } else {
         setError(err.message || "서버 연결 실패");
       }
@@ -37,9 +37,9 @@ const DistanceMonitor: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // 2. 혼잡도 레벨에 따른 UI 헬퍼 함수
+  // 혼잡도 레벨에 따른 UI 헬퍼 함수
   const getStatusInfo = (congestion: number, dist?: number) => {
-    const distance = dist ?? 0; // 거리가 없으면 0 처리
+    const distance = dist ?? -1; // 거리가 없으면 -1 처리
 
     if (congestion === -1) {
       if (distance < 50) return { label: "테스트: 혼잡", img: "/high.png", color: "#ff4d4f" };
